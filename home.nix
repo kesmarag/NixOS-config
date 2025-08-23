@@ -3,12 +3,7 @@
 { config, pkgs, ... }:
 
 {
-  # home.username = "kesmarag";
-  # home.homeDirectory = "/home/kesmarag";
 
-  # nixpkgs.config.allowUnfree = true;
-
-  # Add packages that should be installed for your user.
   home.packages = [
     pkgs.corefonts
     pkgs.texliveFull
@@ -30,8 +25,7 @@
     pkgs.chromium
   ];
 
-  # An example of managing a dotfile
-  home.file.".my-cool-alias" = {
+  home.file.".kesmarag-alias" = {
     text = ''
       alias ll='ls -alF'
       alias ..='cd ..'
@@ -43,13 +37,7 @@
     EDITOR = "nano";
   };
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
   home.stateVersion = "25.05";
-
-  # programs.home-manager.enable = true;
 
   programs.emacs = {
     enable = true;
@@ -80,7 +68,7 @@
     extraConfig = builtins.readFile ./conf/emacs.el;
   };
 
-  # Configure your shell to use direnv hooks
+  # Configure the shell to use direnv hooks
   programs.bash.enable = true;
   programs.bash.initExtra = "eval \"$(direnv hook bash)\"";
 
