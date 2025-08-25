@@ -5,12 +5,14 @@
 {
 
   home.packages = [
-    pkgs.corefonts
-    pkgs.texliveFull
-	pkgs.aporetic
+    pkgs.gnome-tweaks
+    pkgs.alacritty
+    pkgs.adw-gtk3
+    # pkgs.texliveMedium
+    pkgs.dconf-editor
     pkgs.obs-studio
-    pkgs.kdePackages.kfind
-    pkgs.kdePackages.kruler
+    # pkgs.kdePackages.kfind
+    # pkgs.kdePackages.kruler
     pkgs.direnv
     pkgs.inkscape
     pkgs.spotify
@@ -20,9 +22,12 @@
     pkgs.xournalpp
     pkgs.fastfetch
     pkgs.figlet
-    pkgs.redhat-official-fonts
     pkgs.gparted
     pkgs.chromium
+    pkgs.ipe
+    pkgs.pdfpc
+    pkgs.pympress
+    pkgs.libvterm
   ];
 
   home.file.".kesmarag-alias" = {
@@ -34,7 +39,7 @@
 
   # Set some environment variables
   home.sessionVariables = {
-    EDITOR = "nano";
+    EDITOR = "emacs -nw";
   };
 
   home.stateVersion = "25.05";
@@ -43,29 +48,17 @@
     enable = true;
     package = pkgs.emacs-pgtk;
     extraPackages = epkgs: [
-      epkgs.doric-themes
-      epkgs.vertico
-      epkgs.orderless
-      epkgs.corfu
-      epkgs.kind-icon
-      epkgs.cape
-      epkgs.which-key
-      epkgs.undo-tree
-      epkgs.comment-dwim-2
-      epkgs.olivetti
-      epkgs.yasnippet
-      epkgs.marginalia
+      epkgs.straight
       epkgs.magit
       epkgs.lsp-mode
       epkgs.lsp-ui
-      #(epkgs.auctex.override { with-reftex = true; }) # Ensure auctex has reftex
+      # (epkgs.auctex.override { with-reftex = true; }) # Ensure auctex has reftex
       epkgs.pdf-tools
       epkgs.vterm
       epkgs.notmuch
-      epkgs.markdown-mode
       epkgs.direnv
     ];
-    extraConfig = builtins.readFile ./conf/emacs.el;
+    # extraConfig = builtins.readFile ./conf/emacs.el;
   };
 
   # Configure the shell to use direnv hooks

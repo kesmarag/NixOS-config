@@ -56,8 +56,33 @@
   };
 
   # KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  #services.displayManager.sddm.enable = true;
+  #services.desktopManager.plasma6.enable = true;
+
+  # GNOME Desktop Environment.            
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
+  services.gnome.core-apps.enable = false;
+  services.gnome.core-developer-tools.enable = false;
+  services.gnome.games.enable = false;
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    gnome-user-docs];
+
+  environment.systemPackages = with pkgs; [
+  # core utilities
+  wget git tree rsync curl tmux
+  # programs
+  vlc zoom-us
+  # fonts
+  fontconfig freetype
+  home-manager
+  nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
+  ];
+
+  fonts.packages = with pkgs; [
+    cm_unicode redhat-official-fonts corefonts inter aporetic
+  ];
 
   services.printing.enable = true;
 
@@ -89,19 +114,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-
   programs.firefox.enable = true;
-
-  environment.systemPackages = with pkgs; [
-  # core utilities
-  wget git tree rsync curl tmux
-  # programs
-  vlc zoom-us
-  # fonts
-  inter fontconfig freetype
-  home-manager
-  ];
-
 
   environment.sessionVariables = {
     # Development
@@ -122,20 +135,7 @@
     extraPortals = [pkgs.kdePackages.xdg-desktop-portal-kde];
   };
 
-fonts = {
-  enableDefaultPackages = true;
-  fontconfig = {
-    enable = true;
-    antialias = true;
-    subpixel = {
-      rgba = "rgb"; 
-    };
-    hinting = {
-      enable = true;
-      style = "slight"; 
-    };
-  };
-};
+
 
 
 
