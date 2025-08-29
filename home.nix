@@ -5,29 +5,6 @@
 {
 
   home.packages = [
-    pkgs.gnome-tweaks
-    pkgs.alacritty
-    pkgs.adw-gtk3
-    # pkgs.texliveMedium
-    pkgs.dconf-editor
-    pkgs.obs-studio
-    # pkgs.kdePackages.kfind
-    # pkgs.kdePackages.kruler
-    pkgs.direnv
-    pkgs.inkscape
-    pkgs.spotify
-    pkgs.tmux
-    pkgs.notmuch
-    pkgs.isync
-    pkgs.xournalpp
-    pkgs.fastfetch
-    pkgs.figlet
-    pkgs.gparted
-    pkgs.chromium
-    pkgs.ipe
-    pkgs.pdfpc
-    pkgs.pympress
-    pkgs.libvterm
   ];
 
   home.file.".kesmarag-alias" = {

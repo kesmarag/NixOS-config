@@ -30,6 +30,10 @@
     ];
   };
 
+  networking.networkmanager.plugins = with pkgs; [
+    networkmanager-openvpn
+  ];
+
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   networking.hostName = "RungeKutta"; 
@@ -78,10 +82,34 @@
   fontconfig freetype
   home-manager
   nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
+  gnome-tweaks
+  alacritty
+  adw-gtk3
+  # texliveMedium
+  dconf-editor
+  obs-studio
+  # kdePackages.kfind
+  # kdePackages.kruler
+  direnv
+  inkscape
+  spotify
+  tmux
+  notmuch
+  isync
+  xournalpp
+  fastfetch
+  figlet
+  gparted
+  chromium
+  ipe
+  pdfpc
+  # pympress
+  libvterm
+  eduvpn-client
   ];
 
   fonts.packages = with pkgs; [
-    cm_unicode redhat-official-fonts corefonts inter aporetic
+    cm_unicode redhat-official-fonts corefonts inter aporetic google-fonts
   ];
 
   services.printing.enable = true;
