@@ -4,8 +4,7 @@
 
 {
 
-  home.packages = [
-  ];
+  home.packages = [ ];
 
   home.file.".kesmarag-alias" = {
     text = ''
@@ -34,6 +33,7 @@
       epkgs.vterm
       epkgs.notmuch
       epkgs.direnv
+      epkgs.nix-mode
     ];
     # extraConfig = builtins.readFile ./conf/emacs.el;
   };

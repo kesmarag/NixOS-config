@@ -36,7 +36,7 @@
 
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  networking.hostName = "RungeKutta"; 
+  networking.hostName = "RungeKutta";
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Athens";
@@ -63,9 +63,11 @@
   #services.displayManager.sddm.enable = true;
   #services.desktopManager.plasma6.enable = true;
 
-  # GNOME Desktop Environment.            
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  # GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  # services.displayManager.gdm.enable = true;
+  # services.desktopManager.gnome.enable = true;
   services.gnome.core-apps.enable = false;
   services.gnome.core-developer-tools.enable = false;
   services.gnome.games.enable = false;
@@ -87,12 +89,11 @@
   adw-gtk3
   # texliveMedium
   dconf-editor
-  obs-studio
+  # obs-studio
   # kdePackages.kfind
   # kdePackages.kruler
   direnv
   inkscape
-  spotify
   tmux
   notmuch
   isync
@@ -100,17 +101,37 @@
   fastfetch
   figlet
   gparted
-  chromium
-  ipe
+  # chromium
+  # ipe
   pdfpc
   # pympress
   libvterm
   eduvpn-client
+  spotify
+  gemini-cli
+  copyq
   ];
-
-  fonts.packages = with pkgs; [
-    cm_unicode redhat-official-fonts corefonts inter aporetic google-fonts
-  ];
+  
+  fonts = {
+    packages = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+      liberation_ttf
+      aporetic
+      cm_unicode
+    ];
+    fontconfig = {
+      defaultFonts = {
+        serif = [ "Noto Serif" ];
+        sansSerif = [ "Noto Sans" ];
+        monospace = [ "Aporetic Sans Mono" ];
+      };
+      antialias = true;
+      hinting.enable = true;
+      hinting.style = "slight";
+    };
+  };
 
   services.printing.enable = true;
 
@@ -133,6 +154,11 @@
     home = "/home/kesmarag";
     extraGroups = [ "networkmanager" "wheel" ];
   };
+
+#  systemd.services.home-manager-kesmarag.serviceConfig = {
+#    Restart = "no";
+#  };
+
 
 
   home-manager.useGlobalPkgs = true;
