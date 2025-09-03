@@ -4,7 +4,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      <home-manager/nixos>
+      # <home-manager/nixos>
       ./hardware-configuration.nix
     ];
 
@@ -60,38 +60,65 @@
   };
 
   # KDE Plasma Desktop Environment.
-  #services.displayManager.sddm.enable = true;
-  #services.desktopManager.plasma6.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma6.enable = true;
 
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Core system libraries
+    stdenv.cc.cc.lib
+    glibc
+    zlib
+    icu
+    openssl
+    curl
+    expat
+    libGL
+    fontconfig
+    freetype
+    alsa-lib
+  ];
+
+
+  
+  services.flatpak.enable = true;
   # GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
   # services.displayManager.gdm.enable = true;
   # services.desktopManager.gnome.enable = true;
-  services.gnome.core-apps.enable = false;
-  services.gnome.core-developer-tools.enable = false;
-  services.gnome.games.enable = false;
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-user-docs];
+  # services.gnome.core-apps.enable = false;
+  # services.gnome.core-developer-tools.enable = false;
+  #services.gnome.games.enable = false;
+  #environment.gnome.excludePackages = with pkgs; [
+  # gnome-tour
+  # gnome-user-docs];
 
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    elisa
+    discover
+];
+
+  
   environment.systemPackages = with pkgs; [
   # core utilities
-  wget git tree rsync curl tmux
+  wget git tree rsync tmux
   # programs
   vlc zoom-us
   # fonts
-  fontconfig freetype
+  #fontconfig freetype
   home-manager
-  nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
-  gnome-tweaks
+  # nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
+  # gnome-tweaks
   alacritty
-  adw-gtk3
+  # adw-gtk3
   # texliveMedium
-  dconf-editor
-  # obs-studio
-  # kdePackages.kfind
-  # kdePackages.kruler
+  # dconf-editor
+  obs-studio
+  kdePackages.kfind
+  kdePackages.kruler
   direnv
   inkscape
   tmux
@@ -102,15 +129,44 @@
   figlet
   gparted
   # chromium
-  # ipe
+  ipe
   pdfpc
   # pympress
   libvterm
   eduvpn-client
   spotify
   gemini-cli
-  copyq
+  #copyq
+  eza
+  # Install direnv so the shell hook can find it
+  direnv
+  qmk
+  killall
+  wl-clipboard
+  lshw pciutils usbutils
+  # bleachbit
+
+  # Build Emacs with your required packages
+  ((pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: with epkgs; [
+    straight
+    magit
+    lsp-mode
+    lsp-ui
+    pdf-tools
+    vterm
+    notmuch
+    direnv
+    nix-mode
+    rust-mode
+    ]))
   ];
+
+  # # 2. Configure Bash system-wide to use direnv
+  # programs.bash.bashrcExtra = ''
+  #   if [ -x "$(command -v direnv)" ]; then
+  #     eval "$(direnv hook bash)"
+  #   fi
+  # '';
   
   fonts = {
     packages = with pkgs; [
@@ -118,14 +174,16 @@
       noto-fonts-cjk-sans
       noto-fonts-emoji
       liberation_ttf
-      aporetic
+      # aporetic
       cm_unicode
+      iosevka
+      jetbrains-mono
     ];
     fontconfig = {
       defaultFonts = {
         serif = [ "Noto Serif" ];
         sansSerif = [ "Noto Sans" ];
-        monospace = [ "Aporetic Sans Mono" ];
+        monospace = [ "Iosevka" ];
       };
       antialias = true;
       hinting.enable = true;
@@ -161,10 +219,10 @@
 
 
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.users.kesmarag = {
-    imports = [ ./home.nix ];
-  };
+  # home-manager.useGlobalPkgs = true;
+  # home-manager.users.kesmarag = {
+    # imports = [ ./home.nix ];
+  # };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -188,10 +246,6 @@
     # This is the key line. It adds the KDE backend for the portal.
     extraPortals = [pkgs.kdePackages.xdg-desktop-portal-kde];
   };
-
-
-
-
 
   system.stateVersion = "25.05"; 
 
