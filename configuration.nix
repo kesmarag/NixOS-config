@@ -19,6 +19,13 @@
   boot.plymouth.enable = true;
   boot.kernelParams = ["intel_pstate=active" "i915.enable_fbc=1" "i915.enable_psr=1" "quiet" "splash"];
 
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+  };
+  zramSwap.enable = true;
+  zramSwap.algorithm = "zstd";
+  zramSwap.memoryPercent = 25;
+  
   # services.blueman.enable = true;
   hardware.bluetooth.enable = true;
 
@@ -62,9 +69,12 @@
   # KDE Plasma Desktop Environment.
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
+  programs.kdeconnect.enable = true;
+
+  
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     # Core system libraries
@@ -128,7 +138,7 @@
   fastfetch
   figlet
   gparted
-  # chromium
+   # chromium
   ipe
   pdfpc
   # pympress
@@ -144,6 +154,9 @@
   killall
   wl-clipboard
   lshw pciutils usbutils
+  lm_sensors
+  intel-gpu-tools
+  gimp
   # bleachbit
 
   # Build Emacs with your required packages
@@ -237,7 +250,12 @@
   };
 
 
-  # Enable XDG portals
+  
+  environment.sessionVariables = {
+    GTK_USE_PORTAL = "1";
+  };
+  
+
   xdg.portal = {
     enable = true;
     # If you are on Wayland, this is also a good idea.
@@ -247,6 +265,8 @@
     extraPortals = [pkgs.kdePackages.xdg-desktop-portal-kde];
   };
 
+  
+  
   system.stateVersion = "25.05"; 
 
 }
