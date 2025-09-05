@@ -118,7 +118,7 @@
   # programs
   vlc zoom-us
   # fonts
-  #fontconfig freetype
+  fontconfig freetype
   home-manager
   # nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
   # gnome-tweaks
@@ -129,6 +129,13 @@
   obs-studio
   kdePackages.kfind
   kdePackages.kruler
+  kdePackages.filelight
+  kdePackages.kcalc
+  kdePackages.sweeper
+  kdePackages.kweather
+  kdePackages.skanlite
+  kdePackages.merkuro
+  kdePackages.arianna
   direnv
   inkscape
   tmux
@@ -157,6 +164,8 @@
   lm_sensors
   intel-gpu-tools
   gimp
+  libreoffice-qt6
+  mdbook
   # bleachbit
 
   # Build Emacs with your required packages
@@ -192,6 +201,8 @@
       iosevka
       jetbrains-mono
     ];
+    enableDefaultPackages = true;
+    fontconfig.enable = true;
     fontconfig = {
       defaultFonts = {
         serif = [ "Noto Serif" ];
@@ -202,6 +213,36 @@
       hinting.enable = true;
       hinting.style = "slight";
     };
+      fontconfig.localConf = ''
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+      <fontconfig>
+        <!-- Prefer emoji fonts when emoji codepoints are used -->
+        <alias>
+          <family>sans-serif</family>
+          <prefer>
+            <family>Noto Color Emoji</family>
+            <family>Twemoji</family>
+          </prefer>
+        </alias>
+
+        <alias>
+          <family>serif</family>
+          <prefer>
+            <family>Noto Color Emoji</family>
+            <family>Twemoji</family>
+          </prefer>
+        </alias>
+
+        <alias>
+          <family>monospace</family>
+          <prefer>
+            <family>Noto Color Emoji</family>
+            <family>Twemoji</family>
+          </prefer>
+        </alias>
+      </fontconfig>
+    '';
   };
 
   services.printing.enable = true;
