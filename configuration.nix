@@ -134,7 +134,8 @@
   kdePackages.sweeper
   kdePackages.kweather
   kdePackages.skanlite
-  kdePackages.merkuro
+  kdePackages.ktorrent
+  # kdePackages.merkuro
   kdePackages.arianna
   direnv
   inkscape
@@ -191,64 +192,91 @@
   # '';
   
   fonts = {
+    enableDefaultPackages = true;
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk-sans
       noto-fonts-emoji
       liberation_ttf
+      inter
+      ibm-plex
+      roboto
+      dejavu_fonts
       # aporetic
       cm_unicode
       iosevka
       jetbrains-mono
     ];
-    enableDefaultPackages = true;
     fontconfig.enable = true;
     fontconfig = {
       defaultFonts = {
         serif = [ "Noto Serif" ];
-        sansSerif = [ "Noto Sans" ];
+        sansSerif = ["Roboto" "Noto Sans" ];
         monospace = [ "Iosevka" ];
       };
       antialias = true;
       hinting.enable = true;
       hinting.style = "slight";
     };
-      fontconfig.localConf = ''
-      <?xml version="1.0"?>
-      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-      <fontconfig>
-        <!-- Prefer emoji fonts when emoji codepoints are used -->
-        <alias>
-          <family>sans-serif</family>
-          <prefer>
-            <family>Noto Color Emoji</family>
-            <family>Twemoji</family>
-          </prefer>
-        </alias>
+  #     fontconfig.localConf = ''
+  #     <?xml version="1.0"?>
+  #     <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+  #     <fontconfig>
+  #       <!-- Prefer emoji fonts when emoji codepoints are used -->
+  #       <alias>
+  #         <family>sans-serif</family>
+  #         <prefer>
+  #           <family>Noto Color Emoji</family>
+  #           <family>Twemoji</family>
+  #         </prefer>
+  #       </alias>
 
-        <alias>
-          <family>serif</family>
-          <prefer>
-            <family>Noto Color Emoji</family>
-            <family>Twemoji</family>
-          </prefer>
-        </alias>
+  #       <alias>
+  #         <family>serif</family>
+  #         <prefer>
+  #           <family>Noto Color Emoji</family>
+  #           <family>Twemoji</family>
+  #         </prefer>
+  #       </alias>
 
-        <alias>
-          <family>monospace</family>
-          <prefer>
-            <family>Noto Color Emoji</family>
-            <family>Twemoji</family>
-          </prefer>
-        </alias>
-      </fontconfig>
-    '';
+  #       <alias>
+  #         <family>monospace</family>
+  #         <prefer>
+  #           <family>Noto Color Emoji</family>
+  #           <family>Twemoji</family>
+  #         </prefer>
+  #       </alias>
+  #       <match>
+  #   <test name="lang" compare="contains">
+  #     <string>el</string>
+  #   </test>
+  #   <edit name="family" mode="prepend" binding="strong">
+  #     <string>Noto Sans</string>
+  #     <string>Noto Serif</string>
+  #   </edit>
+  #   </match>
+  #     </fontconfig>
+  #   '';
   };
+  
 
   services.printing.enable = true;
 
   services.keyd.enable = true;
   environment.etc."keyd/default.conf".source = ./conf/keyd.conf; 
+
+
+  systemd.user.services.emacs = {
+    description = "Emacs Daemon";
+    serviceConfig = {
+      ExecStart = "${pkgs.emacs-pgtk}/bin/emacs --daemon";
+      ExecStop = "${pkgs.emacs-pgtk}/bin/emacsclient --eval \"(kill-emacs)\"";
+      Type = "forking";
+      Restart = "always";
+    };
+    wantedBy = [ "default.target" ];
+  };
+
+
 
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
