@@ -67,12 +67,12 @@
   };
 
   # KDE Plasma Desktop Environment.
-  # services.displayManager.sddm.enable = true;
-  # services.desktopManager.plasma6.enable = true;
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
-  programs.kdeconnect.enable = true;
+  # programs.kdeconnect.enable = true;
 
   
   programs.nix-ld.enable = true;
@@ -101,8 +101,8 @@
   # services.desktopManager.gnome.enable = true;
   # services.gnome.core-apps.enable = false;
   # services.gnome.core-developer-tools.enable = false;
-  #services.gnome.games.enable = false;
-  #environment.gnome.excludePackages = with pkgs; [
+  # services.gnome.games.enable = false;
+  # environment.gnome.excludePackages = with pkgs; [
   # gnome-tour
   # gnome-user-docs];
 
@@ -128,7 +128,7 @@
   # dconf-editor
   obs-studio
   kdePackages.kfind
-  kdePackages.kruler
+  kdePackages.kruler            # 
   kdePackages.filelight
   kdePackages.kcalc
   kdePackages.sweeper
@@ -136,7 +136,7 @@
   kdePackages.skanlite
   kdePackages.ktorrent
   # kdePackages.merkuro
-  kdePackages.arianna
+  # kdePackages.arianna
   direnv
   inkscape
   tmux
@@ -146,10 +146,10 @@
   fastfetch
   figlet
   gparted
-   # chromium
+  chromium
   ipe
   pdfpc
-  # pympress
+  pympress
   libvterm
   eduvpn-client
   spotify
@@ -165,7 +165,7 @@
   lm_sensors
   intel-gpu-tools
   gimp
-  libreoffice-qt6
+  libreoffice
   mdbook
   # bleachbit
 
@@ -217,45 +217,6 @@
       hinting.enable = true;
       hinting.style = "slight";
     };
-  #     fontconfig.localConf = ''
-  #     <?xml version="1.0"?>
-  #     <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-  #     <fontconfig>
-  #       <!-- Prefer emoji fonts when emoji codepoints are used -->
-  #       <alias>
-  #         <family>sans-serif</family>
-  #         <prefer>
-  #           <family>Noto Color Emoji</family>
-  #           <family>Twemoji</family>
-  #         </prefer>
-  #       </alias>
-
-  #       <alias>
-  #         <family>serif</family>
-  #         <prefer>
-  #           <family>Noto Color Emoji</family>
-  #           <family>Twemoji</family>
-  #         </prefer>
-  #       </alias>
-
-  #       <alias>
-  #         <family>monospace</family>
-  #         <prefer>
-  #           <family>Noto Color Emoji</family>
-  #           <family>Twemoji</family>
-  #         </prefer>
-  #       </alias>
-  #       <match>
-  #   <test name="lang" compare="contains">
-  #     <string>el</string>
-  #   </test>
-  #   <edit name="family" mode="prepend" binding="strong">
-  #     <string>Noto Sans</string>
-  #     <string>Noto Serif</string>
-  #   </edit>
-  #   </match>
-  #     </fontconfig>
-  #   '';
   };
   
 
@@ -263,20 +224,6 @@
 
   services.keyd.enable = true;
   environment.etc."keyd/default.conf".source = ./conf/keyd.conf; 
-
-
-  systemd.user.services.emacs = {
-    description = "Emacs Daemon";
-    serviceConfig = {
-      ExecStart = "${pkgs.emacs-pgtk}/bin/emacs --daemon";
-      ExecStop = "${pkgs.emacs-pgtk}/bin/emacsclient --eval \"(kill-emacs)\"";
-      Type = "forking";
-      Restart = "always";
-    };
-    wantedBy = [ "default.target" ];
-  };
-
-
 
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -288,6 +235,7 @@
     jack.enable = true;
   };
 
+
   users.users.kesmarag = {
     isNormalUser = true;
     description = "Costas Smaragdakis";
@@ -295,16 +243,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-#  systemd.services.home-manager-kesmarag.serviceConfig = {
-#    Restart = "no";
-#  };
-
-
-
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.users.kesmarag = {
-    # imports = [ ./home.nix ];
-  # };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -323,7 +261,10 @@
   environment.sessionVariables = {
     GTK_USE_PORTAL = "1";
   };
-  
+
+  # environment.variables = {
+  #   QT_QPA_PLATFORMTHEME = "gnome";
+  # };
 
   xdg.portal = {
     enable = true;

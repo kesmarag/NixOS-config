@@ -4,6 +4,9 @@
 
 {
 
+  home.username = "kesmarag";
+  home.homeDirectory = "/home/kesmarag";
+
   home.packages = [ ];
 
   home.file.".kesmarag-alias" = {
@@ -13,33 +16,15 @@
     '';
   };
 
-  # Set some environment variables
   home.sessionVariables = {
     EDITOR = "emacs -nw";
   };
 
-  home.stateVersion = "25.05";
-
-  # programs.emacs = {
+  # services.emacs = {
   #   enable = true;
-  #   package = pkgs.emacs-pgtk;
-  #   extraPackages = epkgs: [
-  #     epkgs.straight
-  #     epkgs.magit
-  #     epkgs.lsp-mode
-  #     epkgs.lsp-ui
-  #     # (epkgs.auctex.override { with-reftex = true; }) # Ensure auctex has reftex
-  #     epkgs.pdf-tools
-  #     epkgs.vterm
-  #     epkgs.notmuch
-  #     epkgs.direnv
-  #     epkgs.nix-mode
-  #   ];
-  #   # extraConfig = builtins.readFile ./conf/emacs.el;
+  #   package = pkgs.emacs-pgtk; 
   # };
-
-  # Configure the shell to use direnv hooks
-  # programs.bash.enable = true;
-  # programs.bash.initExtra = "eval \"$(direnv hook bash)\"";
+  
+  home.stateVersion = "25.05";
 
 }
