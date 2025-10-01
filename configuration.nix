@@ -17,8 +17,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.plymouth.enable = true;
-  boot.kernelParams = ["intel_pstate=active" "i915.enable_fbc=1" "i915.enable_psr=1" "quiet" "splash"];
-
+  boot.kernelParams = ["intel_pstate=active" "i915.enable_fbc=1" "i915.enable_psr=1" "v4l2loopback" "quiet" "splash"];
+  boot.blacklistedKernelModules = [ "psmouse" ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=10 card_label="OBS Virtual Camera" exclusive_caps=1
+  '';
+  
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
   };
@@ -67,8 +71,8 @@
   };
 
   # KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
 
@@ -95,21 +99,21 @@
   
   services.flatpak.enable = true;
   # GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
   # services.displayManager.gdm.enable = true;
   # services.desktopManager.gnome.enable = true;
-  # services.gnome.core-apps.enable = false;
-  # services.gnome.core-developer-tools.enable = false;
-  # services.gnome.games.enable = false;
-  # environment.gnome.excludePackages = with pkgs; [
-  # gnome-tour
-  # gnome-user-docs];
+  services.gnome.core-apps.enable = false;
+  services.gnome.core-developer-tools.enable = false;
+  services.gnome.games.enable = false;
+  environment.gnome.excludePackages = with pkgs; [
+  gnome-tour
+  gnome-user-docs];
 
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    elisa
-    discover
-];
+#   environment.plasma6.excludePackages = with pkgs.kdePackages; [
+#     elisa
+#     discover
+# ];
 
   
   environment.systemPackages = with pkgs; [
@@ -120,23 +124,26 @@
   # fonts
   fontconfig freetype
   home-manager
-  # nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
-  # gnome-tweaks
+  nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
+  gnome-tweaks
   alacritty
-  # adw-gtk3
+  adw-gtk3
   # texliveMedium
-  # dconf-editor
+  dconf-editor
   obs-studio
-  kdePackages.kfind
-  kdePackages.kruler            # 
-  kdePackages.filelight
-  kdePackages.kcalc
-  kdePackages.sweeper
-  kdePackages.kweather
-  kdePackages.skanlite
-  kdePackages.ktorrent
+  # kdePackages.kfind
+  # kdePackages.kruler
+  # kdePackages.filelight
+  # kdePackages.kcalc
+  # kdePackages.sweeper
+  # kdePackages.kweather
+  # kdePackages.skanlite
+  # kdePackages.ktorrent
+  # kdePackages.kcolorpicker
+  # kdePackages.kio-fuse
   # kdePackages.merkuro
   # kdePackages.arianna
+  guvcview
   direnv
   inkscape
   tmux
@@ -165,24 +172,26 @@
   lm_sensors
   intel-gpu-tools
   gimp
+  krita
   libreoffice
   mdbook
   # bleachbit
 
   # Build Emacs with your required packages
-  ((pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: with epkgs; [
-    straight
-    magit
-    lsp-mode
-    lsp-ui
-    pdf-tools
-    vterm
-    notmuch
-    direnv
-    nix-mode
-    rust-mode
-    ]))
-  ];
+#  ((pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: with epkgs; [
+#    straight
+#    magit
+#    lsp-mode
+#    lsp-ui
+#    pdf-tools
+#    vterm
+#    notmuch
+#    direnv
+#    nix-mode
+#    rust-mode
+#    ]))
+];
+
 
   # # 2. Configure Bash system-wide to use direnv
   # programs.bash.bashrcExtra = ''
@@ -196,6 +205,7 @@
     packages = with pkgs; [
       noto-fonts
       noto-fonts-emoji
+      twemoji-color-font
       liberation_ttf
       inter
       ibm-plex
@@ -217,6 +227,36 @@
       hinting.enable = true;
       hinting.style = "slight";
     };
+    fontconfig.localConf = ''
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+      <fontconfig>
+        <!-- Prefer emoji fonts when emoji codepoints are used -->
+        <alias>
+          <family>sans-serif</family>
+          <prefer>
+            <family>Noto Color Emoji</family>
+            <family>Twemoji</family>
+          </prefer>
+        </alias>
+
+        <alias>
+          <family>serif</family>
+          <prefer>
+            <family>Noto Color Emoji</family>
+            <family>Twemoji</family>
+          </prefer>
+        </alias>
+
+        <alias>
+          <family>monospace</family>
+          <prefer>
+            <family>Noto Color Emoji</family>
+            <family>Twemoji</family>
+          </prefer>
+        </alias>
+      </fontconfig>
+    '';
   };
   
 
@@ -248,6 +288,8 @@
 
   programs.firefox.enable = true;
 
+  # programs.kdeconnect.enable = true;
+
   environment.sessionVariables = {
     # Development
     EDITOR = "nano";
@@ -258,13 +300,13 @@
 
 
   
-  environment.sessionVariables = {
-    GTK_USE_PORTAL = "1";
-  };
-
-  # environment.variables = {
-  #   QT_QPA_PLATFORMTHEME = "gnome";
+  # environment.sessionVariables = {
+  #   GTK_USE_PORTAL = "1";
   # };
+
+  environment.variables = {
+    QT_QPA_PLATFORMTHEME = "gnome";
+  };
 
   xdg.portal = {
     enable = true;
@@ -272,7 +314,7 @@
     wlr.enable = true;
     
     # This is the key line. It adds the KDE backend for the portal.
-    extraPortals = [pkgs.kdePackages.xdg-desktop-portal-kde];
+    # extraPortals = [pkgs.kdePackages.xdg-desktop-portal-kde];
   };
 
   
