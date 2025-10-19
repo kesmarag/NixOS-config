@@ -17,11 +17,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.plymouth.enable = true;
-  boot.kernelParams = ["intel_pstate=active" "i915.enable_fbc=1" "i915.enable_psr=1" "v4l2loopback" "quiet" "splash"];
+  boot.kernelParams = ["intel_pstate=active" "i915.enable_fbc=1" "i915.enable_psr=1" "quiet" "splash"];
   boot.blacklistedKernelModules = [ "psmouse" ];
-  boot.extraModprobeConfig = ''
-    options v4l2loopback devices=1 video_nr=10 card_label="OBS Virtual Camera" exclusive_caps=1
-  '';
   
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
@@ -114,19 +111,15 @@
 
   
   environment.systemPackages = with pkgs; [
-  # core utilities
   wget git tree rsync tmux
-  # programs
   vlc zoom-us
-  # fonts
   fontconfig freetype
   home-manager
   # nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
   # gnome-tweaks
   alacritty
   # adw-gtk3
-  # texliveMedium
-  dconf-editor
+  # dconf-editor
   obs-studio
   kdePackages.kfind
   kdePackages.kruler
@@ -138,7 +131,9 @@
   kdePackages.ktorrent
   kdePackages.kcolorpicker
   kdePackages.kio-fuse
-  guvcview
+  kdePackages.sddm-kcm
+  kdePackages.kclock
+  kdiff3
   direnv
   inkscape
   tmux
@@ -150,41 +145,26 @@
   gparted
   chromium
   ipe
-  pdfpc
   pympress
   libvterm
   eduvpn-client
   spotify
-  gemini-cli
-  #copyq
   eza
-  # Install direnv so the shell hook can find it
   direnv
   # qmk
   killall
+  wayland-utils
   wl-clipboard
   lshw pciutils usbutils
   lm_sensors
   intel-gpu-tools
   gimp
-  # krita
+  krita
   libreoffice-qt6
   mdbook
-  # bleachbit
-
-  # Build Emacs with your required packages
-#  ((pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: with epkgs; [
-#    straight
-#    magit
-#    lsp-mode
-#    lsp-ui
-#    pdf-tools
-#    vterm
-#    notmuch
-#    direnv
-#    nix-mode
-#    rust-mode
-#    ]))
+  brave
+  paraview
+  gmsh
 ];
 
 
@@ -199,13 +179,13 @@
     enableDefaultPackages = true;
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-emoji
+      # noto-fonts-emoji
+      noto-fonts-color-emoji
       liberation_ttf
       inter
       ibm-plex
       roboto
       dejavu_fonts
-      # aporetic
       cm_unicode
       iosevka
       jetbrains-mono
@@ -213,41 +193,14 @@
     fontconfig.enable = true;
     fontconfig = {
       defaultFonts = {
-        serif = [ "Noto Serif" ];
-        sansSerif = ["Roboto" "Noto Sans" ];
-        monospace = [ "Iosevka" ];
+        serif = [ "Noto Serif" "Noto Color Emoji"];
+        sansSerif = ["Noto Sans" "Noto Color Emoji" ];
+        monospace = [ "Iosevka" "Noto Color Emoji"];
       };
       antialias = true;
       hinting.enable = true;
       hinting.style = "slight";
     };
-    fontconfig.localConf = ''
-      <?xml version="1.0"?>
-      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-      <fontconfig>
-        <!-- Prefer emoji fonts when emoji codepoints are used -->
-        <alias>
-          <family>sans-serif</family>
-          <prefer>
-            <family>Noto Color Emoji</family>
-          </prefer>
-        </alias>
-
-        <alias>
-          <family>serif</family>
-          <prefer>
-            <family>Noto Color Emoji</family>
-          </prefer>
-        </alias>
-
-        <alias>
-          <family>monospace</family>
-          <prefer>
-            <family>Noto Color Emoji</family>
-          </prefer>
-        </alias>
-      </fontconfig>
-    '';
   };
   
 
