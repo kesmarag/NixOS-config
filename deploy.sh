@@ -15,6 +15,7 @@ echo
 echo "Copying new configuration files to /etc/nixos/..."
 sudo cp configuration.nix /etc/nixos/
 sudo cp home.nix /etc/nixos/
+sudo cp ./conf/keyd.conf /etc/nixos/conf/keyd.conf
 echo "   Done."
 echo
 

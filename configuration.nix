@@ -3,8 +3,7 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      # <home-manager/nixos>
+    [ 
       ./hardware-configuration.nix
     ];
 
@@ -12,8 +11,6 @@
       extraOptions = "experimental-features = nix-command flakes";
   };
 
-
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.plymouth.enable = true;
@@ -27,7 +24,6 @@
   zramSwap.algorithm = "zstd";
   zramSwap.memoryPercent = 25;
   
-  # services.blueman.enable = true;
   hardware.bluetooth.enable = true;
 
   hardware.graphics = {
@@ -67,7 +63,6 @@
     variant = "";
   };
 
-  # KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
@@ -76,7 +71,6 @@
   
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-    # Core system libraries
     stdenv.cc.cc.lib
     glibc
     zlib
@@ -93,17 +87,6 @@
 
   
   services.flatpak.enable = true;
-  # GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-  # services.displayManager.gdm.enable = true;
-  # services.desktopManager.gnome.enable = true;
-  # services.gnome.core-apps.enable = false;
-  # services.gnome.core-developer-tools.enable = false;
-  # services.gnome.games.enable = false;
-  # environment.gnome.excludePackages = with pkgs; [
-  # gnome-tour
-  # gnome-user-docs];
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     elisa
@@ -115,11 +98,7 @@
   vlc zoom-us
   fontconfig freetype
   home-manager
-  # nautilus loupe papers gnome-console gnome-weather gnome-maps # gnome
-  # gnome-tweaks
   alacritty
-  # adw-gtk3
-  # dconf-editor
   obs-studio
   kdePackages.kfind
   kdePackages.kruler
@@ -166,8 +145,6 @@
   paraview
   gmsh
 ];
-
-
   # # 2. Configure Bash system-wide to use direnv
   # programs.bash.bashrcExtra = ''
   #   if [ -x "$(command -v direnv)" ]; then
@@ -179,7 +156,6 @@
     enableDefaultPackages = true;
     packages = with pkgs; [
       noto-fonts
-      # noto-fonts-emoji
       noto-fonts-color-emoji
       liberation_ttf
       inter
@@ -233,13 +209,9 @@
 
   programs.firefox.enable = true;
 
-  # programs.kdeconnect.enable = true;
-
   environment.sessionVariables = {
-    # Development
     EDITOR = "nano";
     BROWSER = "firefox";
-    # Intel graphics
     LIBVA_DRIVER_NAME = "iHD";
   };
 
@@ -249,21 +221,12 @@
     GTK_USE_PORTAL = "1";
   };
 
-  # environment.variables = {
-  #   QT_QPA_PLATFORMTHEME = "gnome";
-  # };
-
   xdg.portal = {
     enable = true;
-    # If you are on Wayland, this is also a good idea.
     wlr.enable = true;
-    
-    # This is the key line. It adds the KDE backend for the portal.
     extraPortals = [pkgs.kdePackages.xdg-desktop-portal-kde];
   };
 
-  
-  
   system.stateVersion = "25.05"; 
 
 }
