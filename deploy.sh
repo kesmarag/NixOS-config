@@ -6,7 +6,7 @@ echo
 
 echo "Backing up existing configuration..."
 sudo cp /etc/nixos/configuration.nix /etc/nixos/configuration.nix_backup 2>/dev/null || true
-sudo cp /etc/nixos/home.nix /etc/nixos/home.nix_backup 2>/dev/null || true
+#sudo cp /etc/nixos/home.nix /etc/nixos/home.nix_backup 2>/dev/null || true
 sudo cp -R /etc/nixos/conf /etc/nixos/conf_backup 2>/dev/null || true
 echo "   Done."
 echo
@@ -14,7 +14,7 @@ echo
 
 echo "Copying new configuration files to /etc/nixos/..."
 sudo cp configuration.nix /etc/nixos/
-sudo cp home.nix /etc/nixos/
+#sudo cp home.nix /etc/nixos/
 sudo cp ./conf/keyd.conf /etc/nixos/conf/keyd.conf
 echo "   Done."
 echo

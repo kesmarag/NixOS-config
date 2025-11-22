@@ -25,19 +25,22 @@
   zramSwap.memoryPercent = 25;
   
   hardware.bluetooth.enable = true;
-
+  
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      vaapiIntel
+      intel-vaapi-driver
+      mesa
     ];
   };
 
   networking.networkmanager.plugins = with pkgs; [
     networkmanager-openvpn
   ];
+  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
 
+  
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   networking.hostName = "RungeKutta";
@@ -114,6 +117,7 @@
   kdePackages.kclock
   kdiff3
   direnv
+  nix-direnv
   inkscape
   tmux
   notmuch
@@ -129,7 +133,6 @@
   eduvpn-client
   spotify
   eza
-  direnv
   # qmk
   killall
   wayland-utils
@@ -144,6 +147,9 @@
   brave
   paraview
   gmsh
+  opencascade-occt
+  nix-prefetch-git
+  distrobox
 ];
   # # 2. Configure Bash system-wide to use direnv
   # programs.bash.bashrcExtra = ''
@@ -179,7 +185,8 @@
     };
   };
   
-
+  environment.variables.DIRENV_LOG_FORMAT = "";
+  
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplipWithPlugin ];
   
@@ -216,6 +223,8 @@
   };
 
 
+  virtualisation.podman.enable = true;
+  virtualisation.podman.dockerSocket.enable = true;
   
   environment.sessionVariables = {
     GTK_USE_PORTAL = "1";

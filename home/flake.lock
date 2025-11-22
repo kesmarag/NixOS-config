@@ -1,0 +1,115 @@
+{
+  "nodes": {
+    "emacsConfig": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "path": "./emacs-config",
+        "type": "path"
+      },
+      "original": {
+        "path": "./emacs-config",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1763228015,
+        "narHash": "sha256-1rYieMVUyZ3kK/cBIr8mOusxrOEJ1/+2MsOg0oJ7b3A=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "96156a9e86281c4bfc451236bc2ddfe4317e6f39",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "juliaConfig": {
+      "locked": {
+        "path": "./julia-config",
+        "type": "path"
+      },
+      "original": {
+        "path": "./julia-config",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "latexConfig": {
+      "locked": {
+        "path": "./latex-config",
+        "type": "path"
+      },
+      "original": {
+        "path": "./latex-config",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1763421233,
+        "narHash": "sha256-Stk9ZYRkGrnnpyJ4eqt9eQtdFWRRIvMxpNRf4sIegnw=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "89c2b2330e733d6cdb5eae7b899326930c2c0648",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1762977756,
+        "narHash": "sha256-4PqRErxfe+2toFJFgcRKZ0UI9NSIOJa+7RXVtBhy4KE=",
+        "owner": "Nixos",
+        "repo": "nixpkgs",
+        "rev": "c5ae371f1a6a7fd27823bc500d9390b38c05fa55",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "pythonConfig": {
+      "locked": {
+        "path": "./python-config",
+        "type": "path"
+      },
+      "original": {
+        "path": "./python-config",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "root": {
+      "inputs": {
+        "emacsConfig": "emacsConfig",
+        "home-manager": "home-manager",
+        "juliaConfig": "juliaConfig",
+        "latexConfig": "latexConfig",
+        "nixpkgs": "nixpkgs_2",
+        "pythonConfig": "pythonConfig"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
