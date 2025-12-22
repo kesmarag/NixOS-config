@@ -145,8 +145,8 @@
   libreoffice-qt6
   mdbook
   brave
-  paraview
-  gmsh
+  # paraview
+  # gmsh
   opencascade-occt
   nix-prefetch-git
   distrobox
