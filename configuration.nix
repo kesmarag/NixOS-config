@@ -115,6 +115,7 @@
   kdePackages.kio-fuse
   kdePackages.sddm-kcm
   kdePackages.kclock
+  kdePackages.marble
   kdiff3
   direnv
   nix-direnv
