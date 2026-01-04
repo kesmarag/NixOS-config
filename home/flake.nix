@@ -32,10 +32,15 @@
       flake = true;
     };
 
+    cppConfig = {
+      url = "path:./cpp-config";
+      flake = true;
+    };
+
   };
 
 
-  outputs = { self, nixpkgs, home-manager, juliaConfig, pythonConfig, emacsConfig, latexConfig, ... }: {
+  outputs = { self, nixpkgs, home-manager, juliaConfig, pythonConfig, emacsConfig, latexConfig, cppConfig, ... }: {
 
     homeConfigurations = {
       "kesmarag" = home-manager.lib.homeManagerConfiguration {
@@ -46,6 +51,7 @@
                     pythonConfig.homeModule
                     emacsConfig.homeModule
                     latexConfig.homeModule
+                    cppConfig.homeModule
                   ];
 
       };

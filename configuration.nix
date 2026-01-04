@@ -151,6 +151,8 @@
   opencascade-occt
   nix-prefetch-git
   distrobox
+  just
+  # ventoy
 ];
   # # 2. Configure Bash system-wide to use direnv
   # programs.bash.bashrcExtra = ''
